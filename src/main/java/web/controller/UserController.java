@@ -23,7 +23,7 @@ public class UserController {
     @GetMapping()
     public String printUsers(ModelMap model) {
 
-        List<User> users = this.userService.listUsers();
+        List<User> users = userService.listUsers();
         model.addAttribute("users", users);
         return "index";
 
@@ -31,18 +31,14 @@ public class UserController {
 
     @GetMapping("/{id}/edit")
     public String editUser(@PathVariable("id") int id, ModelMap model) {
-        User user = this.userService.getUser(id);
+        User user = userService.getUser(id);
         model.addAttribute("user", user);
         return "edit";
     }
 
     @PatchMapping("/user/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
-        User oldUser = this.userService.getUser(id);
-        oldUser.setName(user.getName());
-        oldUser.setLastName(user.getLastName());
-        oldUser.setEmail(user.getEmail());
-        this.userService.updateUser(oldUser);
+    public String update(@ModelAttribute("user") User user) {
+        userService.updateUser(user);
         return "redirect:/";
     }
 
